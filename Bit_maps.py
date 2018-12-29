@@ -58,10 +58,11 @@ class XC_bitmap(object):
 
     def sequence(self, reverse=False):
         if not reverse:
-            step = 1
+            start, end, step = 0, len(self.values), 1
         else:
-            step = -1
-        for i in range(0, len(self.values), step):
+            start, end, step = len(self.values)-1, -1, -1
+
+        for i in range(start, end, step):
             value = self.values[i]
             count = 0
             while value != 0:
@@ -86,7 +87,7 @@ if __name__ == "__main__":
         print(str(_) + " is_in " + str(bit_map.find_location(_)))
 
     print("\n == sort == \n")
-    for _ in bit_map.sequence(reverse=False):
+    for _ in bit_map.sequence(reverse=True):
         print(_)
 
 
