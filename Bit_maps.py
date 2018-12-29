@@ -17,8 +17,6 @@ class XC_bitmap(object):
             return
         self.update_value(target_value=num, flag=1)
 
-
-
     def div_num(self, num):
         n = 0
         while 1<<n < num:
@@ -34,7 +32,7 @@ class XC_bitmap(object):
         # 1. 找到在第几个整数上
         index_of_bit = (target_value >> self.div_num)
         # 2. 在字节上的位置
-        loc_in_bit = target_value % self.max_bits_per_int
+        loc_in_bit = target_value % (self.max_bits_per_int + 1)
         return index_of_bit, loc_in_bit
 
     def query_value(self, target_value):
@@ -58,27 +56,33 @@ class XC_bitmap(object):
         else:
             pass
 
-    def print(self, ascent=True):
-        pass
+    def sequence(self, ascent=True):
+        if ascent:
+            for i in range(0, len(self.values)):
+                value = self.values[i]
+                count = 0
+                while value != 0:
+                    values_bin = bin(value)
+                    if value & 1 == 1:
+                        yield count + i * (1<<self.div_num)
+                        value = value >> 1
+                        count += 1
+                    else:
+                        count += 1
+                        value = value >> 1
 
 if __name__ == "__main__":
     bit_map = XC_bitmap(1000)
     print(" need bit memory_size {a} 个整数(s) \n".format(a=bit_map.bit_size))
-    num_list = [0, 1, 2, 3, 6, 8, 19, 31, 32,36, 63, 64, 65, 125, 126, 126, 128, 129, 98, 999]
+    num_list = [32, 63, 64, 65, 125, 126, 126, 128, 129, 98, 999]
     for _ in num_list:
         bit_map.add(_)
-
-    print("\n test _data \n")
+        # print("\n test _data \n")
     test_num_list = [1, 2, 3, 6, 8, 19, 31, 32,36, 63, 64, 65, 125, 126, 126, 128, 129, 98, 999]
-    for _ in test_num_list:
-        print(str(_) + " is_in " + str(bit_map.query_value(_)))
-
-    sub_list= [6, 8, 19, 31, 32,36]
-    for _ in sub_list:
-        bit_map.remove(_)
-
-    for _ in test_num_list:
-        print(str(_) + " is_in " + str(bit_map.query_value(_)))
+    for _ in num_list:
+        print(str(_) + " is_in " + str(bit_map.find_location(_)))
+    for _ in bit_map.sequence():
+        print(_)
 
 
 
