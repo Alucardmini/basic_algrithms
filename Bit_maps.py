@@ -56,20 +56,23 @@ class XC_bitmap(object):
         else:
             pass
 
-    def sequence(self, ascent=True):
-        if ascent:
-            for i in range(0, len(self.values)):
-                value = self.values[i]
-                count = 0
-                while value != 0:
-                    values_bin = bin(value)
-                    if value & 1 == 1:
-                        yield count + i * (1<<self.div_num)
-                        value = value >> 1
-                        count += 1
-                    else:
-                        count += 1
-                        value = value >> 1
+    def sequence(self, reverse=False):
+        if not reverse:
+            step = 1
+        else:
+            step = -1
+        for i in range(0, len(self.values), step):
+            value = self.values[i]
+            count = 0
+            while value != 0:
+                values_bin = bin(value)
+                if value & 1 == 1:
+                    yield count + i * (1<<self.div_num)
+                    value = value >> 1
+                    count += 1
+                else:
+                    count += 1
+                    value = value >> 1
 
 if __name__ == "__main__":
     bit_map = XC_bitmap(1000)
@@ -81,7 +84,9 @@ if __name__ == "__main__":
     test_num_list = [1, 2, 3, 6, 8, 19, 31, 32,36, 63, 64, 65, 125, 126, 126, 128, 129, 98, 999]
     for _ in num_list:
         print(str(_) + " is_in " + str(bit_map.find_location(_)))
-    for _ in bit_map.sequence():
+
+    print("\n == sort == \n")
+    for _ in bit_map.sequence(reverse=False):
         print(_)
 
 
