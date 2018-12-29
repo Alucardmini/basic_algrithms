@@ -79,12 +79,6 @@ if __name__ == "__main__":
     bit_map = XC_bitmap(1000)
     print(" need bit memory_size {a} 个整数(s) \n".format(a=bit_map.bit_size))
     num_list = [32, 63, 64, 65, 125, 126, 126, 128, 129, 98, 999]
-    for _ in num_list:
-        bit_map.add(_)
-        # print("\n test _data \n")
-    test_num_list = [1, 2, 3, 6, 8, 19, 31, 32,36, 63, 64, 65, 125, 126, 126, 128, 129, 98, 999]
-    for _ in num_list:
-        print(str(_) + " is_in " + str(bit_map.find_location(_)))
 
     print("\n == sort == \n")
     for _ in bit_map.sequence(reverse=True):
