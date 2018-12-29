@@ -65,24 +65,34 @@ class XC_bitmap(object):
         for i in range(start, end, step):
             value = self.values[i]
             count = 0
+            values_bin = bin(value)
+
             while value != 0:
                 values_bin = bin(value)
                 if value & 1 == 1:
                     yield count + i * (1<<self.div_num)
-                    value = value >> 1
+                    value = max(value >> 1, 0)
                     count += 1
                 else:
                     count += 1
-                    value = value >> 1
+                    value = max(value >> 1, 0)
+
 
 if __name__ == "__main__":
     bit_map = XC_bitmap(1000)
-    print(" need bit memory_size {a} 个整数(s) \n".format(a=bit_map.bit_size))
-    num_list = [32, 63, 64, 65, 125, 126, 126, 128, 129, 98, 999]
-
+    # print(" need bit memory_size {a} 个整数(s) \n".format(a=bit_map.bit_size))
+    #
+    import numpy as np
+    #
+    test_list = np.random.randint(0, 1000, 100)
+    print(test_list)
+    for _ in test_list:
+        bit_map.add(_)
     print("\n == sort == \n")
-    for _ in bit_map.sequence(reverse=True):
+    for _ in bit_map.sequence(reverse=False):
         print(_)
+    # [814 679 105 957 217 638 663  89 895 842]
+    print("13 + bin " + bin(-9223372036854774784))
 
 
 
