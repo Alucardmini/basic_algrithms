@@ -41,17 +41,17 @@ class XC_bitmap(object):
         # values_bin = bin(self.values[index])
         # tmp_1_others_0_str = bin(tmp_1_others_0)
         if self.values[index] & tmp_1_others_0 == 0:
-            return False
+            return False, index, loc
         else:
-            return True
+            return True, index, loc
 
     def update_value(self, target_value, flag=1):
 
-        if flag == 1 and not self.query_value(target_value):
-            index, loc = self.find_location(target_value)
+        is_exit, index, loc = self.query_value(target_value)
+
+        if flag == 1 and not is_exit:
             self.values[index] = self.values[index] | (1 << loc)
-        elif flag == 0 and self.query_value(target_value):
-            index, loc = self.find_location(target_value)
+        elif flag == 0 and is_exit:
             self.values[index] = self.values[index] ^ (1 << loc)
         else:
             pass
