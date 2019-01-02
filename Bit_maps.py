@@ -3,7 +3,7 @@
 # @date: '12/29/18'
 import sys
 import math
-class XC_bitmap(object):
+class Pybitmap(object):
     def __init__(self, capacity):
         self.capacity = capacity  # 需要存数据的数量
         self.max_bits_per_int = len(bin(sys.maxsize)) - 2
@@ -79,7 +79,7 @@ class XC_bitmap(object):
 
 
 if __name__ == "__main__":
-    bit_map = XC_bitmap(1000)
+    bit_map = Pybitmap(1000)
     # print(" need bit memory_size {a} 个整数(s) \n".format(a=bit_map.bit_size))
     #
     import numpy as np
