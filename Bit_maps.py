@@ -2,7 +2,6 @@
 # @version: 1.0
 # @date: '12/29/18'
 import sys
-import math
 class Pybitmap(object):
     def __init__(self, capacity):
         self.capacity = capacity  # 需要存数据的数量
@@ -65,10 +64,8 @@ class Pybitmap(object):
         for i in range(start, end, step):
             value = self.values[i]
             count = 0
-            values_bin = bin(value)
 
             while value != 0:
-                values_bin = bin(value)
                 if value & 1 == 1:
                     yield count + i * (1<<self.div_num)
                     value = max(value >> 1, 0)
@@ -88,11 +85,12 @@ if __name__ == "__main__":
     print(test_list)
     for _ in test_list:
         bit_map.add(_)
-    print("\n == sort == \n")
-    for _ in bit_map.sequence(reverse=False):
-        print(_)
-    # [814 679 105 957 217 638 663  89 895 842]
-    print("13 + bin " + bin(-9223372036854774784))
+    # print("\n == sort == \n")
+    # print(list(bit_map.sequence(reverse=False)))
+    # # [814 679 105 957 217 638 663  89 895 842]
+    # print("13 + bin " + bin(-9223372036854774784))
+
+    print(bit_map.query_value(43))
 
 
 
